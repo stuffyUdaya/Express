@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form action="/result" method="post">
+      <p>Your Name: <input type="text" name="name" required></p>
+      <p>Dojo Location: <select name="dojolocation">
+        <option value="Mountain View">Mountain View</option>
+        <option value="Seattle">Seattle</option>
+        <option value="Atlanta">Atlanta</option>
+        <option value="DC">DC</option>
+
+      </select></p>
+      <p>Favourite Language: <select name="favlang">
+        <option value="JS">JS</option>
+        <option value="Ruby">Ruby</option>
+        <option value="Python">Python</option>
+
+      </select></p>
+
+      <p>Commnet(optional): <textarea name="comment" rows="8" cols="80" required></textarea></p>
+      <input type="submit" value="submit">
+    </form>
+  </body>
+</html>
