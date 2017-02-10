@@ -36,6 +36,12 @@ io.sockets.on('connection', function (socket) {
 socket.on("button_clicked", function (data){
     console.log('Someone clicked a button!  Reason: ' + data.reason);
     socket.emit('server_response', {response: "sockets are the best!"});
+    // Emit: only the person who clicked
+    // socket.emit('my_emit_event');
+    // //  BROADCAST: all except the guy who clicked
+    // socket.broadcast.emit("my_broadcast_event");
+    // //  FULL BROADCAST:  all including the guy who clicked
+    // io.emit("my_full_broadcast_event");
 });
 
   //all the socket code goes in here!

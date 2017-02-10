@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function (){
+      var socket = io.connect();
+
+        $('form').submit(function(){
+          var postdata = {
+            'name': $("form input[name=name]").val(),
+            'location': $("form select[name= dojolocation]").val(),
+            'favlang': $("form select[name= favlang]").val(),
+            'comment': $("form textarea[name= comment]").val()
+
+          }
+          console.log(postdata);
+          socket.emit("button_clicked", postdata);
+
+
+        socket.on('updated_message',function(data){
+          $('div').append('<p> You Emitted the following info. from the server: {'+ data.response+ '}</p>' )
+          console.log('updated_message:' + data.response);});
+        socket.on('random',function(data){
+          $('div').append('<p> Your Luck number emitted by the server is '+ data.random+ '.</p>' )
+            console.log('random : ' + data.random);});
+            $("form input[name=name]").val('');
+            $("form select[name= dojolocation]").val('Atlanta');
+            $("form select[name= favlang]").val('JS');
+            $("form textarea[name= comment]").val('');
+
+
+
+            return false;
+              });
+
+      })
+
+    </script>
+  </head>
+  <body>
+    <div>
+
+    </div>
+    <form action="##" >
+      <p>Your Name: <input type="text" name="name" id ='name'></p>
+      <p>Dojo Location: <select name="dojolocation">
+        <option value="Mountain View">Mountain View</option>
+        <option value="Seattle">Seattle</option>
+        <option value="Atlanta">Atlanta</option>
+        <option value="DC">DC</option>
+
+      </select></p>
+      <p>Favourite Language: <select name="favlang">
+        <option value="JS">JS</option>
+        <option value="Ruby">Ruby</option>
+        <option value="Python">Python</option>
+
+      </select></p>
+
+      <p>Comment(optional): <textarea name="comment" rows="8" cols="80"></textarea></p>
+      <input id="button" type="submit" value="submit">
+    </form>
+  </body>
+</html>
