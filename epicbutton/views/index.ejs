@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function (){
+      var counter =0 ;
+      var socket = io.connect();
+    $('#push').click(function(){
+        counter++;
+        socket.emit('button_clicked', counter);
+        socket.on('updated_counter', function(data){
+          $('h2').replaceWith('<h2> The button has been pushed '+data+ ' time(s) </h2>' )
+        })
+    });
+    $('#reset').click(function(){
+        counter = 0;
+        socket.emit('resetbutton_clicked', counter);
+        socket.on('delete_counter', function(data){
+          $('h2').replaceWith('<h2> The button has been pushed '+data+ ' time(s) </h2>' )
+        })
+    });
+  });
+    </script>
+
+  </head>
+  <body>
+
+    <h2></h2>
+    <p> Push the button to update the count!!</p>
+
+    <button type="button" id = "push" name="button">Push the button</button>
+
+    <button type="button"id ="reset" name="button">Reset</button>
+
+  </body>
+</html>
