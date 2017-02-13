@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type ="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+      var name = prompt('What is your name?')
+      $(document).ready(function (){
+          var socket = io.connect();
+          if(name!== 'null'){
+          socket.emit('newuser_added', name);
+          socket.on('existing_users', function(data){
+            for(i=0; i<data.length; i++){
+
+                $('div').append('<p>' + data[i].user + ' has joined in the room</p>')
+            }
+            socket.on('new_user',function(data){
+              $('div').append('<p>'+data+' has joined in the room</p>')
+            });
+            });
+            socket.on('userleft',function(data){
+
+              $('div').append('<p>'+data+' has left the room</p>')
+            })
+
+          }
+
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Welcome to chatroom</h1>
+    <div>
+
+    </div>
+  </body>
+</html>
