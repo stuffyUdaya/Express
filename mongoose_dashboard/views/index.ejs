@@ -1,0 +1,16 @@
+<div>
+
+  <%for(var i =0;i<rabbits.length; i++){%>
+    <h3>new Rabbit :)</h3>
+  <p>Name: <%= rabbits[i].name%></p>
+  <p>Id: <%= rabbits[i]._id%></p>
+<p><a href="/mongooses/edit/<%= rabbits[i]._id%>">Edit</a></p>
+<form action="/mongooses/delete/<%= rabbits[i]._id%>" method="post">
+  <input type="submit" value="Delete">
+</form>
+  <hr>
+  <% } %>
+
+
+
+</div>
