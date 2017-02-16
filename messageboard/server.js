@@ -20,7 +20,8 @@ var Schema = mongoose.Schema;
 mongoose.connect('mongodb://localhost/basic_message');
 var PostSchema = new mongoose.Schema({
   pname: {type: String, required: true, minlength: 3},
-	message: {type: String, required: true}
+	message: {type: String, required: true},
+  comments: [{type: Schema.Types.ObjectId, ref: 'Comment'}],
 }, {timestamps: true})
 mongoose.model('Post',PostSchema);
 var Post = mongoose.model('Post')
@@ -35,25 +36,18 @@ mongoose.model('Comment',CommentSchema);
 var Comment = mongoose.model('Comment')
 
 app.get('/',function(req,res){
-  Post.find({},function(err,posts){
+  Post.find({}).populate('comments').exec(function(err,posts){
     if(err){
       console.log("Something went wrong", err);
     }
     else{
-      Comment.find({}).populate('_post').exec(function(err, comments){
-      
-        if(err){
-        console.log("Something went wrong", err);
-        }
-        else{
 
-          res.render('index',{posts:posts, comments:comments});
+          res.render('index',{posts:posts});
         }
       })
 
-    }
-  })
-})
+    })
+
 
 app.post('/addpost',function(req,res){
   console.log("POSTDATA",req.body);
@@ -72,13 +66,24 @@ app.post('/addcomment/:id',function(req,res){
   console.log(req.params.id);
   console.log("CommentData",req.body);
   var comment = new Comment({cname: req.body.cname, comment: req.body.comment, _post:req.params.id });
-  comment.save(function(err){
-    if(err){
-      console.log("error",err);
+  Post.findById(req.params.id,function(err,post){
 
-    }
-    res.redirect('/');
+      post.comments.push(comment);
+      post.save(function(err){
+        comment.save(function(err){
+          if(err){
+            console.log("error",err);
+
+          }
+          res.redirect('/');
+        })
+        if(err){
+          console.log('error',err);
+        }
+
   })
+
+})
 })
 app.listen(8000, function() {
     console.log("listening on port 8000");

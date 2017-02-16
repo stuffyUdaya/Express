@@ -19,12 +19,12 @@
     <%for(var post in posts){%>
       <h3>Name: <%= posts[post].pname%></h3>
       <h3>Message: <%= posts[post].message%></h3>
-      <p>Id: <%=posts[post]._id%></p>
-      <%for(var comment in comments){%>
-        <p>Name: <%= comments[comment].cname%></p>
-        <p>Comment: <%= comments[comment].comment%></p>
-        <p>Post ID: <%= comments[comment]._post%></p>
-        <% } %>
+      <p>Id: <%=posts[post].comments%></p>
+    <%for(var i=0;i<posts[post].comments.length; i++){%>
+      <p>Name:<%=posts[post].comments[i].cname%></p>
+      <p>Comment:<%=posts[post].comments[i].comment%></p>
+      <% } %>
+
       <form action="/addcomment/<%=posts[post]._id%>" method="post">
         <p>Name:<input type="text" name="cname" ></p>
         <p>Comment: <input type="text" name="comment" ></p>
